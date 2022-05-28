@@ -1,5 +1,6 @@
+![alt text](https://github.com/ashishrrs/sk-group-expense-manager/blob/main/logo.png)
+# *Splitkaro* 
 # Group-Expense-Tracker
-
 ● Split Grocery and Food Bills from your Order History in 5 seconds.
 
 ● Fairest way to Split Bills.
@@ -7,7 +8,17 @@
 ● Pay-per-use by item wise splitting.
 
 ## Tech Stack : FastAPI
+## Instrucions to setup and test
 
+Run Group-Expense-Tracker APIs with following commands
+
+```bash
+    git clone https://github.com/ashishrrs/sk-group-expense-manager.git
+    cd sk-group-expense-manager
+    pip install -r requirements.txt
+    uvicorn main:app --reload
+```
+Now got to http://127.0.0.1:8000/docs to run and test APIs using swagger UI.
 ## API Reference
 
 #### Get all groups
