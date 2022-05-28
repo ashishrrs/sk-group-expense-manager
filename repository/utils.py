@@ -4,7 +4,7 @@ from fastapi import HTTPException
 import sys
 
 
-def check(data: dict):
+def check(data: dict):  # check fucntion to check that paid money == total owed money == value of item
 
     for item in data["items"]:
         total_paid = 0
@@ -15,15 +15,12 @@ def check(data: dict):
         for owers in item["owed_by"]:
             for value in owers.values():
                 total_owed += value
-        # print(total_paid)
-        # print(total_owed)
-        # print(item["value"])
         if item["value"] != total_paid or item["value"] != total_owed:
             return False
     return True
 
 
-def add_group(data: dict):
+def add_group(data: dict):  # function to add groups
 
     response = {}
     try:
@@ -59,7 +56,7 @@ def add_group(data: dict):
         raise HTTPException(500)
 
 
-async def add_expense(group_id: str, data: dict):
+async def add_expense(group_id: str, data: dict):  # fucntion to add expenses
 
     try:
         flag = 0
@@ -127,6 +124,7 @@ async def add_expense(group_id: str, data: dict):
         raise HTTPException(500)
 
 
+# fucntion to update expenses
 async def update_expense(group_id: str, id: str, data: dict):
 
     try:
@@ -221,7 +219,7 @@ async def update_expense(group_id: str, id: str, data: dict):
         raise HTTPException(500)
 
 
-async def delete_expense(group_id: str, id: str):
+async def delete_expense(group_id: str, id: str):  # fucntion to delete expense
 
     try:
         flag = 0
