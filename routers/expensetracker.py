@@ -29,31 +29,31 @@ async def all_users():
     return users
 
 
-@router.post("/groups/add/")  # Api call to add new group
+@router.post("/groups/add")  # Api call to add new group
 async def add_group(data: dict):
     utils.add_group(data)
 
 
 # Api call to add new expense in a group
-@router.post("/groups/{group_id}/add-expense/")
+@router.post("/groups/{group_id}/add-expense")
 async def add_expense(group_id: str, data: dict):
     await utils.add_expense(group_id, data)
 
 
 # Api call to update expense in a group
-@router.put("/groups/{group_id}/{id}/update-expense/")
+@router.put("/groups/{group_id}/{id}/update-expense")
 async def update_expense(group_id: str, id: str, data: dict):
     await utils.update_expense(group_id, id, data)
 
 
 # Api call to delete expense in a group
-@router.delete("/groups/{group_id}/{id}/delete-expense/")
+@router.delete("/groups/{group_id}/{id}/delete-expense")
 async def delete_expense(id: str, group_id: str):
     await utils.delete_expense(group_id, id)
 
 
 # Api call to get group_balance
-@router.get("/groups/{group_id}/group-expense/", response_model=schemas.GroupExpense)
+@router.get("/groups/{group_id}/group-expense", response_model=schemas.GroupExpense)
 async def group_expense(group_id: str):
     try:
         flag = 0
