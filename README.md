@@ -1,4 +1,4 @@
-![alt text](https://github.com/ashishrrs/sk-group-expense-manager/blob/main/logo.png)
+![alt text](https://github.com/ashishrrs/sk-group-expense-manager/blob/main/media/logo.png)
 # *Splitkaro* 
 # Group-Expense-Tracker
 ● Split Grocery and Food Bills from your Order History in 5 seconds.
