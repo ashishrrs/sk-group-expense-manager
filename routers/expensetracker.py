@@ -11,41 +11,48 @@ users = []
 router = APIRouter()
 
 
+# Api to get all groups
 @router.get("/groups/all", response_model=List[schemas.Group])
 async def all_groups():
     return groups
 
 
+# Api to get all expenses
 @router.get("/expenses/all", response_model=List[schemas.Expense])
 async def all_expenses():
     return expenses
 
 
+# Api to get all users(for users i am considering username as unique)
 @router.get("/users/all", response_model=List[schemas.User])
 async def all_users():
     return users
 
 
-@router.post("/groups/add/")
+@router.post("/groups/add/")  # Api call to add new group
 async def add_group(data: dict):
     utils.add_group(data)
 
 
-@router.post("/groups/{id}/add-expense/")
-async def add_expense(id: str, data: dict):
-    await utils.add_expense(id, data)
+# Api call to add new expense in a group
+@router.post("/groups/{group_id}/add-expense/")
+async def add_expense(group_id: str, data: dict):
+    await utils.add_expense(group_id, data)
 
 
+# Api call to update expense in a group
 @router.put("/groups/{group_id}/{id}/update-expense/")
 async def update_expense(group_id: str, id: str, data: dict):
     await utils.update_expense(group_id, id, data)
 
 
+# Api call to delete expense in a group
 @router.delete("/groups/{group_id}/{id}/delete-expense/")
 async def delete_expense(id: str, group_id: str):
     await utils.delete_expense(group_id, id)
 
 
+# Api call to get group_balance
 @router.get("/groups/{group_id}/group-expense/", response_model=schemas.GroupExpense)
 async def group_expense(group_id: str):
     try:

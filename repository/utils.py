@@ -27,7 +27,7 @@ def add_group(data: dict):
 
     response = {}
     try:
-        response["id"] = str(1)  # str(uuid.uuid1())
+        response["id"] = str(uuid.uuid1())
         response["name"] = data["name"]
         response["expenses"] = []
         response["members"] = data["members"]
@@ -59,12 +59,12 @@ def add_group(data: dict):
         raise HTTPException(500)
 
 
-async def add_expense(id: str, data: dict):
+async def add_expense(group_id: str, data: dict):
 
     try:
         flag = 0
         for group in expensetracker.groups:
-            if group["id"] == id:
+            if group["id"] == group_id:
                 flag = 1
                 expense = {}
                 expense["id"] = str(uuid.uuid1())
