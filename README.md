@@ -1,4 +1,4 @@
-![alt text](https://github.com/ashishrrs/sk-group-expense-manager/blob/main/logo.png)
+![Logo](https://github.com/ashishrrs/sk-group-expense-manager/blob/main/media/logo.png)
 # *Splitkaro* 
 # Group-Expense-Tracker
 ● Split Grocery and Food Bills from your Order History in 5 seconds.
@@ -50,6 +50,8 @@ Now got to http://127.0.0.1:8000/docs to run and test APIs using swagger UI.
 | :-------- | :------- | :------------------------- |
 | `data` | `dict` | **Required**. Data dictionary having name and members as keys |
 
+![add_group](https://github.com/ashishrrs/sk-group-expense-manager/blob/main/media/add_group.png)
+
 #### Add new expense
 
 ```http
@@ -60,6 +62,10 @@ Now got to http://127.0.0.1:8000/docs to run and test APIs using swagger UI.
 | :-------- | :------- | :------------------------- |
 | `group_id` | `str`| **Required**. Id of the group you want to add expense in |
 | `data` | `dict` | **Required**. Data dictionary having name and items as keys |
+
+
+![add_expense](https://github.com/ashishrrs/sk-group-expense-manager/blob/main/media/add_expense.png)
+
 
 #### Update expense
 ```http
@@ -72,6 +78,7 @@ Now got to http://127.0.0.1:8000/docs to run and test APIs using swagger UI.
 |`id`|`str`|**Required**. Id of the expense you want to update|
 | `data` | `dict` | **Required**. Data dictionary having name and items as keys |
 
+![update_expense](https://github.com/ashishrrs/sk-group-expense-manager/blob/main/media/update_expense.png)
 
 #### Delete expense
 ```http
@@ -83,7 +90,7 @@ Now got to http://127.0.0.1:8000/docs to run and test APIs using swagger UI.
 | `group_id` | `str`| **Required**. Id of the group you want to delete expense from |
 |`id`|`str`|**Required**. Id of the expense you want to delete|
 
-
+![delete_expense](https://github.com/ashishrrs/sk-group-expense-manager/blob/main/media/delete_expense.png)
 #### Get Group_Balance
 
 ```http
@@ -93,3 +100,6 @@ Now got to http://127.0.0.1:8000/docs to run and test APIs using swagger UI.
 | Parameter | Type     | Description                |
 | :-------- | :------- | :------------------------- |
 | `group_id` | `str`| **Required**. Id of the group you want to get group_balance of |
+
+
+![group_balance](https://github.com/ashishrrs/sk-group-expense-manager/blob/main/media/group_balance.png)
