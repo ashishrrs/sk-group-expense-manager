@@ -1,5 +1,6 @@
 from routers import expensetracker
 import uuid
+import asyncio
 from fastapi import HTTPException
 import sys
 
@@ -20,7 +21,7 @@ def check(data: dict):  # check fucntion to check that paid money == total owed 
     return True
 
 
-def add_group(data: dict):  # function to add groups
+async def add_group(data: dict):  # function to add groups
 
     response = {}
     try:
@@ -60,6 +61,7 @@ async def add_expense(group_id: str, data: dict):  # fucntion to add expenses
 
     try:
         flag = 0
+        # await asyncio.sleep(10)
         for group in expensetracker.groups:
             if group["id"] == group_id:
                 flag = 1
@@ -112,9 +114,9 @@ async def add_expense(group_id: str, data: dict):  # fucntion to add expenses
                                 group["balances"][member] = {}
                                 group["balances"][member]["total_balance"] = 0.0
                             group["balances"][member]["total_balance"] -= owers[member]
-            expensetracker.expenses.append(expense)
-            group["expenses"].append(expense["id"])
-            break
+                expensetracker.expenses.append(expense)
+                group["expenses"].append(expense["id"])
+                break
 
         if not flag:
             raise HTTPException(500, "id does not exist")
@@ -267,4 +269,103 @@ async def delete_expense(group_id: str, id: str):  # fucntion to delete expense
     except Exception as e:
         exc_type, exc_obj, exc_tb = sys.exc_info()
         print("delete_expense:", e, "at", str(exc_tb.tb_lineno))
+        raise HTTPException(500)
+
+
+async def group_expense(group_id: str):  # fucntion to delete expense
+    try:
+        flag = 0
+        response = {}
+        for group in expensetracker.groups:
+            if group["id"] == group_id:
+                flag = 1
+                pos_val_list = []
+                neg_val_list = []
+                response["name"] = group["name"]
+                response["balances"] = {}
+
+                cnt = 0
+                for i in range(len(group["members"])):
+                    if group["balances"][group["members"][i]]["total_balance"] != 0:
+                        if group["balances"][group["members"][i]]["total_balance"] > 0:
+                            pos_val_list.append((group["members"][i], group["balances"][group["members"][i]]["total_balance"]))
+                        else:
+                            neg_val_list.append((group["members"][i], group["balances"][group["members"][i]]["total_balance"]))
+                        cnt += group["balances"][group["members"]
+                                                 [i]]["total_balance"]
+                    response["balances"][group["members"][i]] = {}
+                    response["balances"][group["members"][i]
+                                         ]["total_balance"] = group["balances"][group["members"][i]]["total_balance"]
+                    response["balances"][group["members"][i]]["owes_to"] = []
+                    response["balances"][group["members"][i]]["owed_by"] = []
+
+                assert cnt == 0
+                templist = []
+                for i in range(len(pos_val_list)):
+                    flag1 = 0
+                    for j in range(len(neg_val_list)):
+                        if abs(neg_val_list[j][1]) == pos_val_list[i][1]:
+                            flag1 = 1
+                            temp = {}
+                            temp1 = {}
+                            temp[neg_val_list[j][0]] = pos_val_list[i][1]
+                            temp1[pos_val_list[i][0]] = pos_val_list[i][1]
+                            response["balances"][neg_val_list[j][0]]["owes_to"].append(temp1)
+                            response["balances"][pos_val_list[i][0]]["owed_by"].append(temp)
+                            del neg_val_list[j]
+                            break
+                    if not flag1:
+                        templist.append(pos_val_list[i])
+
+
+                for i in range(len(neg_val_list)):
+                    templist.append(neg_val_list[i])
+
+
+
+
+                sortedlist = sorted(templist, key=lambda x: x[1])
+                i = 0
+                j = len(sortedlist)-1
+                while i < j:
+
+                    if abs(sortedlist[i][1]) < sortedlist[j][1]:
+                        temp = {}
+                        temp1 = {}
+                        temp[sortedlist[i][0]] = abs(sortedlist[i][1])
+                        temp1[sortedlist[j][0]] = abs(sortedlist[i][1])
+                        response["balances"][sortedlist[i]
+                                             [0]]["owes_to"].append(temp1)
+                        response["balances"][sortedlist[j]
+                                             [0]]["owed_by"].append(temp)
+                        i += 1
+                    elif abs(sortedlist[i][1]) > sortedlist[j][1]:
+                        temp = {}
+                        temp1 = {}
+                        temp[sortedlist[i][0]] = sortedlist[j][1]
+                        temp1[sortedlist[j][0]] = sortedlist[j][1]
+                        response["balances"][sortedlist[i]
+                                             [0]]["owes_to"].append(temp1)
+                        response["balances"][sortedlist[j]
+                                             [0]]["owed_by"].append(temp)
+                        j -= 1
+                    else:
+                        temp = {}
+                        temp1 = {}
+                        temp[sortedlist[i][0]] = sortedlist[j][1]
+                        temp1[sortedlist[j][0]] = sortedlist[j][1]
+                        response["balances"][sortedlist[i]
+                                             [0]]["owes_to"].append(temp1)
+                        response["balances"][sortedlist[j]
+                                             [0]]["owed_by"].append(temp)
+                        i += 1
+                        j -= 1
+
+                return response
+        if not flag:
+            raise HTTPException(500, "id does not exist")
+
+    except Exception as e:
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        print("group_expense:", e, "at", str(exc_tb.tb_lineno))
         raise HTTPException(500)
